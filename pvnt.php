@@ -1,10 +1,7 @@
 <?php header('Access-Control-Allow-Origin: *'); ?>
 <?php
 	require_once('simpledom.php');
-	$html = new simple_html_dom();
-	$page = new simple_html_dom();
-		
-	$page->load_file('https://www.automobile.tn/fr/neuf/recherche');
+	$page = file_get_html('https://www.automobile.tn/fr/neuf/recherche');
 	$t = $page->find('//*[@id="facets"]/fieldset/div[1]/button');
 	$total = trim(strip_tags($t[0]->innertext));
 	$count = explode(" ",$total);
@@ -15,8 +12,7 @@
 	unset($page);
 	$j = 1;
 	while($j <= $pager) {
-		//$html->load_file('https://www.sayarti.tn/prix-des-voitures/page/'.$j.'/?view_type=list&sort_order=price_low');
-		$html->load_file('https://www.automobile.tn/fr/neuf/recherche/s=sort%21price?sort=price&page='.$j);
+		$html = file_get_html('https://www.automobile.tn/fr/neuf/recherche/s=sort%21price?sort=price&page='.$j);
 		$i= 1;
 		while($i <= $limit) {
 			$id = $html->find('//*[@id="w0"]/div[4]/span['.$i.']');
